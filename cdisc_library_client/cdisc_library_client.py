@@ -2,7 +2,7 @@ import requests
 import json
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
-from client.custom_exceptions import ResourceNotFoundException
+from cdisc_library_client.custom_exceptions import ResourceNotFoundException
 
 class CDISCLibraryClient:
 
