@@ -1,1 +1,1 @@
-from cdisc_library_client.cdisc_library_client import CDISCLibraryClient
+from cdisc_library_client.library_client import CDISCLibraryClient

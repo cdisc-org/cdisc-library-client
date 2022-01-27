@@ -1,5 +1,5 @@
 import os
-from cdisc_library_client.cdisc_library_client import CDISCLibraryClient
+from cdisc_library_client import CDISCLibraryClient
 
 if __name__ == "__main__":
     api_key = os.environ.get("CDISC_LIBRARY_API_KEY")

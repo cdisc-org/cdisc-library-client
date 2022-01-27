@@ -2,7 +2,7 @@ import requests
 import json
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
-from cdisc_library_client.custom_exceptions import ResourceNotFoundException
+from .custom_exceptions import ResourceNotFoundException
 
 class CDISCLibraryClient:
 
@@ -13,34 +13,34 @@ class CDISCLibraryClient:
             allowed_methods=["GET", "POST"]
         )
         adapter = HTTPAdapter(max_retries=retry_strategy)
-        self.http = requests.Session()
-        self.http.mount("https://", adapter)
-        self.http.mount("http://", adapter)
+        self._session = requests.Session()
+        self._session.mount("https://", adapter)
+        self._session.mount("http://", adapter)
         self.base_api_url = params.get("base_api_url", "https://library.cdisc.org/api")
-        self.user_agent = params.get("user_agent", "library_client")
-        self.api_key = api_key
+        self._user_agent = params.get("user_agent", "library_client")
+        self._api_key = api_key
 
-    def get_api_json(self, href):
+    def get_api_json(self, uri):
         headers = {
             'Accept': 'application/json',
-            'api-key': self.api_key,
-            "User-Agent": self.user_agent
+            'api-key': self._api_key,
+            "User-Agent": self._user_agent
         }
-        raw_data = self.http.get(self.base_api_url+href, headers=headers)
-        if raw_data.status_code == 200:
-            return json.loads(raw_data.text)
+        raw_data = self._session.get(self.base_api_url+uri, headers=headers)
+        if raw_data.status_code >=  200 and raw_data.status_code <= 299:
+            return raw_data.json()
         elif raw_data.status_code == 404:
-            raise ResourceNotFoundException(f"Resource {self.base_api_url+href} is not found.")
+            raise ResourceNotFoundException(f"Resource {self.base_api_url+uri} is not found.")
         else:
-            raise Exception(f"Request to {self.base_api_url+href} returned unsuccessful {raw_data.status_code} response")
+            raise Exception(f"Request to {self.base_api_url+uri} returned unsuccessful {raw_data.status_code} response")
     
-    def get_raw_response(self, href):
+    def get_raw_response(self, uri):
         headers = {
             'Accept': 'application/json',
             'api-key': self.api_key,
             "User-Agent": "pipeline"
         }
-        return self.http.get(self.base_api_url+href, headers=headers)
+        return self._session.get(self.base_api_url+uri, headers=headers)
     
     def get_products(self):
         href = "/mdr/products"
