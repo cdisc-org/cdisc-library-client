@@ -15,7 +15,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="",
-    packages=setuptools.find_packages(include=["client, client.*"]),
+    packages=setuptools.find_packages(include=["cdisc_library_client, cdisc_library_client.*"]),
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
