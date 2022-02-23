@@ -1,4 +1,4 @@
-__version__ = '0.1.0'
+__version__ = '0.1.3'
 
 import setuptools
 
@@ -14,13 +14,12 @@ setuptools.setup(
     description="A CDISC Library client",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="",
-    packages=setuptools.find_packages(include=["cdisc_library_client, cdisc_library_client.*"]),
+    url="https://github.com/cdisc-org/cdisc-library-client",
+    packages=["cdisc_library_client"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.7",
     install_requires=[
         "requests>=2.22.0",
     ],

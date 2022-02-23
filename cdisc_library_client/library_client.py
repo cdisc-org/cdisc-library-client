@@ -9,8 +9,7 @@ class CDISCLibraryClient:
     def __init__(self, api_key, **params):
         retry_strategy = Retry(
             total=3,
-            status_forcelist=[429, 502, 503, 504, 408],
-            allowed_methods=["GET", "POST"]
+            status_forcelist=[429, 502, 503, 504, 408]
         )
         adapter = HTTPAdapter(max_retries=retry_strategy)
         self._session = requests.Session()
