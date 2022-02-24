@@ -1,5 +1,4 @@
 import requests
-import json
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 from .custom_exceptions import ResourceNotFoundException
@@ -94,4 +93,34 @@ class CDISCLibraryClient:
 
     def get_qrs_instrument(self, instrument, version):
         href = f"/mdr/qrs/instruments/{instrument}/versions/{version}"
+        return self.get_api_json(href)
+    
+    def get_rule_catalogs(self):
+        """
+        Returns an object containing a mapping of catalog titles to links to the catalogs of the form:
+        {
+            "sdtmig-3-4-cr": {
+                "href": "/mdr/rules/sdtmig/3-4",
+                "title": "sdtmig Conformance Rules v3-4",
+                "type": "Conformance Rules Package"
+            }...
+        }
+        """
+        href = f"/mdr/rules"
+        response = self.get_api_json(href)
+        return response.get("_links", {}).get("catalogs", {})
+    
+    def get_rules_catalog(self, standard: str, version: str):
+        """
+        Returns an object containing a mapping of rule id to rule definitions
+        """
+        href = f"/mdr/rules/{standard}/{version}"
+        response = self.get_api_json(href)
+        return response.get("rules", {})
+
+    def get_rule(self, standard: str, version: str, rule_id: str):
+        """
+        Returns a rule definition given a standard, version and rule id.
+        """
+        href = f"/mdr/rules/{standard}/{version}/rule/{rule_id}"
         return self.get_api_json(href)
