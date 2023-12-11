@@ -139,11 +139,6 @@ class CDISCLibraryClient:
         href = f"/cosmos/{version}/mdr/bc/packages/{package}/biomedicalconcepts/{biomedicalconcept}"
         return self.get_api_json(href)
 
-    def get_bc_categories(self, version: str):
-        href = f"/cosmos/{version}/mdr/bc/categories"
-        response = self.get_api_json(href)
-        return response.get("_links", {}).get("categories", [])
-
     def get_bc_latest_biomedicalconcepts(self, version: str):
         href = f"/cosmos/{version}/mdr/bc/biomedicalconcepts"
         response = self.get_api_json(href)
@@ -152,6 +147,11 @@ class CDISCLibraryClient:
     def get_bc_latest_biomedicalconcept(self, version: str, biomedicalconcept: str):
         href = f"/cosmos/{version}/mdr/bc/biomedicalconcepts/{biomedicalconcept}"
         return self.get_api_json(href)
+
+    def get_bc_categories(self, version: str):
+        href = f"/cosmos/{version}/mdr/bc/categories"
+        response = self.get_api_json(href)
+        return response.get("_links", {}).get("categories", [])
 
     def get_bc_latest_biomedicalconcepts_category(self, version: str, category: str):
         href = f"/cosmos/{version}/mdr/bc/biomedicalconcepts?category={category}"
@@ -172,11 +172,6 @@ class CDISCLibraryClient:
         href = f"/cosmos/{version}/mdr/specializations/sdtm/packages/{package}/datasetspecializations/{datasetspecialization}"
         return self.get_api_json(href)
 
-    def get_sdtm_domains(self, version: str):
-        href = f"/cosmos/{version}/mdr/specializations/sdtm/domains"
-        response = self.get_api_json(href)
-        return response.get("domains", [])
-
     def get_sdtm_latest_sdtm_datasetspecializations(self, version: str):
         href = f"/cosmos/{version}/mdr/specializations/sdtm/datasetspecializations"
         response = self.get_api_json(href)
@@ -186,12 +181,17 @@ class CDISCLibraryClient:
         href = f"/cosmos/{version}/mdr/specializations/sdtm/datasetspecializations/{datasetspecialization}"
         return self.get_api_json(href)
 
+    def get_sdtm_domains(self, version: str):
+        href = f"/cosmos/{version}/mdr/specializations/sdtm/domains"
+        response = self.get_api_json(href)
+        return response.get("domains", [])
+
     def get_sdtm_latest_sdtm_datasetspecializations_domain(self, version: str, domain: str):
         href = f"/cosmos/{version}/mdr/specializations/sdtm/datasetspecializations?domain={domain}"
         response = self.get_api_json(href)
         return response.get("_links", {}).get("datasetSpecializations", [])
 
-    def get_sdtm_biomedicalconcept_latest_datasetspecializations(self, version: str, biomedicalconcept: str):
+    def get_biomedicalconcept_latest_datasetspecializations(self, version: str, biomedicalconcept: str):
         href = f"/cosmos/{version}/mdr/specializations/datasetspecializations?biomedicalconcept={biomedicalconcept}"
         response = self.get_api_json(href)
         return response.get("_links", {}).get("datasetSpecializations", [])

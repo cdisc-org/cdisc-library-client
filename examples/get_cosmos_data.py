@@ -23,10 +23,6 @@ if __name__ == "__main__":
     title = bc['shortName']
     print(f"{title} in {package} has {len(bc['dataElementConcepts'])} Data Element Concepts")
 
-    # Get BC categories
-    categories = client.get_bc_categories("v2")
-    print(f"There are {len(categories)} Biomedical Concept categories")
-
     # Get latest BCs
     biomedicalconcepts = client.get_bc_latest_biomedicalconcepts("v2")
     print(f"There are {len(biomedicalconcepts)} Biomedical Concepts in the CDISC Library")
@@ -36,6 +32,10 @@ if __name__ == "__main__":
     package = bc['_links']['parentPackage']['title']
     title = bc['shortName']
     print(f"{title} in {package} has {len(bc['dataElementConcepts'])} Data Element Concepts")
+
+    # Get BC categories
+    categories = client.get_bc_categories("v2")
+    print(f"There are {len(categories)} Biomedical Concept categories")
 
     # Get latest BCs in a category
     biomedicalconcepts = client.get_bc_latest_biomedicalconcepts_category("v2", "RECIST 1.1")
@@ -86,24 +86,24 @@ if __name__ == "__main__":
     print(f"There are {len(specializations)} SDTM Dataset Specializations in the CDISC Library")
 
     # Get latest SDTM Dataset Specializations that specialize a Biomedical Concept
-    specializations = client.get_sdtm_biomedicalconcept_latest_datasetspecializations("v2", "")
+    specializations = client.get_biomedicalconcept_latest_datasetspecializations("v2", "")
     sdtm_specializations = specializations['sdtm']
     print(f"There are {len(sdtm_specializations)} SDTM Dataset Specializations in the CDISC Library")
 
     # Get latest SDTM Dataset Specializations that specialize a Biomedical Concept
     biomedicalConcept = "C25298"
-    specializations = client.get_sdtm_biomedicalconcept_latest_datasetspecializations("v2", biomedicalConcept)
+    specializations = client.get_biomedicalconcept_latest_datasetspecializations("v2", biomedicalConcept)
     sdtm_specializations = specializations['sdtm']
     print(f"There are {len(sdtm_specializations)} SDTM Dataset Specializations in the CDISC Library that specialize {biomedicalConcept}")
 
     # Get latest SDTM Dataset Specializations that specialize a Biomedical Concept
     biomedicalConcept = "C105585"
-    specializations = client.get_sdtm_biomedicalconcept_latest_datasetspecializations("v2", biomedicalConcept)
+    specializations = client.get_biomedicalconcept_latest_datasetspecializations("v2", biomedicalConcept)
     sdtm_specializations = specializations['sdtm']
     print(f"There are {len(sdtm_specializations)} SDTM Dataset Specializations in the CDISC Library that specialize {biomedicalConcept}")
 
     # Get latest SDTM Dataset Specializations that specialize a Biomedical Concept
     biomedicalConcept = "C123456"
-    specializations = client.get_sdtm_biomedicalconcept_latest_datasetspecializations("v2", biomedicalConcept)
+    specializations = client.get_biomedicalconcept_latest_datasetspecializations("v2", biomedicalConcept)
     sdtm_specializations = specializations['sdtm']
     print(f"There are {len(sdtm_specializations)} SDTM Dataset Specializations in the CDISC Library that specialize {biomedicalConcept}")
