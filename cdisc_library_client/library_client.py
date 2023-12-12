@@ -31,7 +31,7 @@ class CDISCLibraryClient:
             raise ResourceNotFoundException(f"Resource {self.base_api_url+uri} is not found.")
         else:
             raise Exception(f"Request to {self.base_api_url+uri} returned unsuccessful {raw_data.status_code} response")
-    
+
     def get_raw_response(self, uri):
         headers = {
             'Accept': 'application/json',
@@ -39,11 +39,11 @@ class CDISCLibraryClient:
             "User-Agent": "pipeline"
         }
         return self._session.get(self.base_api_url+uri, headers=headers)
-    
+
     def get_products(self):
         href = "/mdr/products"
         return self.get_api_json(href)
-    
+
     def get_sdtm(self, version):
         href = f"/mdr/sdtm/{version}"
         return self.get_api_json(href)
@@ -59,11 +59,11 @@ class CDISCLibraryClient:
     def get_adam(self, version):
         href = f"/mdr/adam/{version}"
         return self.get_api_json(href)
-    
+
     def get_cdash(self, version):
         href = f"/mdr/cdash/{version}"
         return self.get_api_json(href)
-        
+
     def get_cdashig(self, version):
         href = f"/mdr/cdashig/{version}"
         return self.get_api_json(href)
@@ -71,7 +71,7 @@ class CDISCLibraryClient:
     def get_terminology_package(self, version):
         href = f"/mdr/ct/packages/{version}"
         return self.get_api_json(href)
-    
+
     def get_codelist_terms(self, version, codelist):
         terms = []
         try:
@@ -94,7 +94,7 @@ class CDISCLibraryClient:
     def get_qrs_instrument(self, instrument, version):
         href = f"/mdr/qrs/instruments/{instrument}/versions/{version}"
         return self.get_api_json(href)
-    
+
     def get_rule_catalogs(self):
         """
         Returns an object containing a mapping of catalog titles to links to the catalogs of the form:
@@ -109,7 +109,7 @@ class CDISCLibraryClient:
         href = f"/mdr/rules"
         response = self.get_api_json(href)
         return response.get("_links", {}).get("catalogs", {})
-    
+
     def get_rules_catalog(self, standard: str, version: str):
         """
         Returns an object containing a mapping of rule id to rule definitions
@@ -124,3 +124,74 @@ class CDISCLibraryClient:
         """
         href = f"/mdr/rules/{standard}/{version}/rule/{rule_id}"
         return self.get_api_json(href)
+
+    def get_bc_packages(self, version: str):
+        href = f"/cosmos/{version}/mdr/bc/packages"
+        response = self.get_api_json(href)
+        return response.get("_links", {}).get("packages", [])
+
+    def get_bc_package_biomedicalconcepts(self, version: str, package: str):
+        href = f"/cosmos/{version}/mdr/bc/packages/{package}/biomedicalconcepts"
+        response = self.get_api_json(href)
+        return response.get("_links", {}).get("biomedicalConcepts", [])
+
+    def get_bc_package_biomedicalconcept(self, version: str, package: str, biomedicalconcept: str):
+        href = f"/cosmos/{version}/mdr/bc/packages/{package}/biomedicalconcepts/{biomedicalconcept}"
+        return self.get_api_json(href)
+
+    def get_bc_latest_biomedicalconcepts(self, version: str):
+        href = f"/cosmos/{version}/mdr/bc/biomedicalconcepts"
+        response = self.get_api_json(href)
+        return response.get("_links", {}).get("biomedicalConcepts", [])
+
+    def get_bc_latest_biomedicalconcept(self, version: str, biomedicalconcept: str):
+        href = f"/cosmos/{version}/mdr/bc/biomedicalconcepts/{biomedicalconcept}"
+        return self.get_api_json(href)
+
+    def get_bc_categories(self, version: str):
+        href = f"/cosmos/{version}/mdr/bc/categories"
+        response = self.get_api_json(href)
+        return response.get("_links", {}).get("categories", [])
+
+    def get_bc_latest_biomedicalconcepts_category(self, version: str, category: str):
+        href = f"/cosmos/{version}/mdr/bc/biomedicalconcepts?category={category}"
+        response = self.get_api_json(href)
+        return response.get("_links", {}).get("biomedicalConcepts", [])
+
+    def get_sdtm_packages(self, version: str):
+        href = f"/cosmos/{version}/mdr/specializations/sdtm/packages"
+        response = self.get_api_json(href)
+        return response.get("_links", {}).get("packages", [])
+
+    def get_sdtm_package_datasetspecializations(self, version: str, package: str):
+        href = f"/cosmos/{version}/mdr/specializations/sdtm/packages/{package}/datasetspecializations"
+        response = self.get_api_json(href)
+        return response.get("_links", {}).get("datasetSpecializations", [])
+
+    def get_sdtm_package_datasetspecialization(self, version: str, package: str, datasetspecialization: str):
+        href = f"/cosmos/{version}/mdr/specializations/sdtm/packages/{package}/datasetspecializations/{datasetspecialization}"
+        return self.get_api_json(href)
+
+    def get_sdtm_latest_sdtm_datasetspecializations(self, version: str):
+        href = f"/cosmos/{version}/mdr/specializations/sdtm/datasetspecializations"
+        response = self.get_api_json(href)
+        return response.get("_links", {}).get("datasetSpecializations", [])
+
+    def get_sdtm_latest_sdtm_datasetspecialization(self, version: str, datasetspecialization: str):
+        href = f"/cosmos/{version}/mdr/specializations/sdtm/datasetspecializations/{datasetspecialization}"
+        return self.get_api_json(href)
+
+    def get_sdtm_domains(self, version: str):
+        href = f"/cosmos/{version}/mdr/specializations/sdtm/domains"
+        response = self.get_api_json(href)
+        return response.get("domains", [])
+
+    def get_sdtm_latest_sdtm_datasetspecializations_domain(self, version: str, domain: str):
+        href = f"/cosmos/{version}/mdr/specializations/sdtm/datasetspecializations?domain={domain}"
+        response = self.get_api_json(href)
+        return response.get("_links", {}).get("datasetSpecializations", [])
+
+    def get_biomedicalconcept_latest_datasetspecializations(self, version: str, biomedicalconcept: str):
+        href = f"/cosmos/{version}/mdr/specializations/datasetspecializations?biomedicalconcept={biomedicalconcept}"
+        response = self.get_api_json(href)
+        return response.get("_links", {}).get("datasetSpecializations", [])
