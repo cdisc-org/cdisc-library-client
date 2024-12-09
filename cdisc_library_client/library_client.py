@@ -69,10 +69,6 @@ class CDISCLibraryClient:
         return self.get_api_json(href)
 
     def get_tig(self, version, substandard):
-        href = f"/mdr/integrated/tig/{version}"
-        return self.get_api_json(href)
-
-    def get_tig_substandard(self, version, substandard):
         href = f"/mdr/integrated/tig/{version}/{substandard}"
         return self.get_api_json(href)
 
