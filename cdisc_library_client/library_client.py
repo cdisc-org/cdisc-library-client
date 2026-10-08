@@ -1,7 +1,7 @@
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
-from .custom_exceptions import ResourceNotFoundException
+from .custom_exceptions import ResourceNotFoundException, LibraryAccessError
 
 class CDISCLibraryClient:
 
@@ -29,6 +29,8 @@ class CDISCLibraryClient:
             return raw_data.json()
         elif raw_data.status_code == 404:
             raise ResourceNotFoundException(f"Resource {self.base_api_url+uri} is not found.")
+        elif raw_data.status_code == 401:
+            raise LibraryAccessError(raw_data.json().get("message") or raw_data.text.strip())
         else:
             raise Exception(f"Request to {self.base_api_url+uri} returned unsuccessful {raw_data.status_code} response")
 
